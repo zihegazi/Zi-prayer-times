@@ -15,8 +15,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>مواقيت الصلاة</title>
 <style>
+/* ===== الخطوط (محلية، تعمل بدون إنترنت): Carlito للأرقام واللاتيني (شبيه Calibri) + Noto Sans Arabic للعربي ===== */
+@font-face{font-family:"Carlito";font-weight:400;font-display:swap;src:url(fonts/carlito-400.woff2) format("woff2")}
+@font-face{font-family:"Carlito";font-weight:700;font-display:swap;src:url(fonts/carlito-700.woff2) format("woff2")}
+@font-face{font-family:"NotoAr";font-weight:400;font-display:swap;src:url(fonts/noto-ar-400.woff2) format("woff2")}
+@font-face{font-family:"NotoAr";font-weight:700;font-display:swap;src:url(fonts/noto-ar-700.woff2) format("woff2")}
+@font-face{font-family:"NotoAr";font-weight:800;font-display:swap;src:url(fonts/noto-ar-800.woff2) format("woff2")}
 /* ===== الألوان (أسود ورمادي فقط) ===== */
-:root{--bg:#e8e8e8;--card:#fafafa;--text:#161616;--muted:#6a6a6a;--line:#d2d2d2;--accent:#161616;--accent-soft:#d8d8d8;--hero1:#3a3a3a;--hero2:#141414;--hero-text:#fff;--radius:16px;--font:"Segoe UI",Tahoma,"Noto Naskh Arabic","Noto Sans Arabic",system-ui,sans-serif;
+:root{--bg:#e8e8e8;--card:#fafafa;--text:#161616;--muted:#6a6a6a;--line:#d2d2d2;--accent:#161616;--accent-soft:#d8d8d8;--hero1:#3a3a3a;--hero2:#141414;--hero-text:#fff;--radius:16px;--font:"Carlito","Calibri","NotoAr","Segoe UI",Tahoma,system-ui,sans-serif;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--card:#000;--text:#f2f2f2;--muted:#8f8f8f;--line:#242424;--accent:#fff;--accent-soft:#1c1c1c;--hero1:#1a1a1a;--hero2:#000}}
 :root[data-theme="dark"]{--bg:#000;--card:#000;--text:#f2f2f2;--muted:#8f8f8f;--line:#242424;--accent:#fff;--accent-soft:#1c1c1c;--hero1:#1a1a1a;--hero2:#000}
@@ -31,16 +37,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex
 .date{font-size:12px;opacity:.7}
 .mid{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px}
 .mid .big{font-size:clamp(34px,7vh,50px)}
-.nn{font-size:clamp(24px,4.6vh,34px);font-weight:800;line-height:1.1;text-align:start}
+.nn{font-size:clamp(26px,4.8vh,36px);font-weight:800;line-height:1.1;text-align:start}
 .nt{font-size:14px;opacity:.85;text-align:start}
-.cd{margin-top:8px;display:inline-block;background:rgba(255,255,255,.14);border-radius:12px;padding:4px 16px;font-size:clamp(22px,4.4vh,30px);font-weight:700;letter-spacing:2px;direction:ltr;font-variant-numeric:tabular-nums}
+.cd{margin-top:8px;display:inline-block;background:rgba(255,255,255,.14);border-radius:12px;padding:4px 16px;font-size:clamp(24px,4.8vh,33px);font-weight:700;letter-spacing:2px;direction:ltr;font-variant-numeric:tabular-nums}
 .cd small{display:block;font-size:11px;font-weight:400;letter-spacing:0;opacity:.8;direction:rtl}
 .now{font-size:12px;opacity:.7;direction:ltr;margin-top:4px;font-variant-numeric:tabular-nums}
 .list{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px}
 .row{flex:1;min-height:0;display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:0 16px}
 .row .ico{font-size:clamp(18px,3.4vh,26px);color:var(--muted)}
-.row .n{flex:1;font-size:clamp(15px,2.8vh,19px);font-weight:700}
-.row .t{font-size:clamp(16px,3vh,21px);font-weight:500;color:var(--muted);direction:ltr;font-variant-numeric:tabular-nums}
+.row .n{flex:1;font-size:clamp(16px,2.9vh,20px);font-weight:700}
+.row .t{font-size:clamp(18px,3.4vh,24px);font-weight:500;color:var(--muted);direction:ltr;font-variant-numeric:tabular-nums}
 .row.sun .n{font-weight:500;color:var(--muted)}
 .row.passed{opacity:.5}
 .row.next{background:var(--accent-soft);border-color:var(--accent)}
@@ -72,7 +78,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex
   </div>
   <div class="list" id="list"></div>
   <div class="method" id="method"></div>
-  <a class="src" id="src" target="_blank" rel="noopener noreferrer">البيانات من: timesprayer.com ↗</a>
+  <a class="src" id="src" target="_blank" rel="noopener noreferrer">امصدر البيانات: timesprayer.com ↗</a>
 </div>
 
 <div class="ov" id="ov"><div class="panel">
