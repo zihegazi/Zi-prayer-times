@@ -64,6 +64,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex
 .panel label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
 .panel select{width:100%;font:inherit;font-size:15px;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
 .chk{display:flex;align-items:center;gap:8px;font-size:14px;margin-top:10px}
+.inst{width:100%;margin-top:14px;font:inherit;font-weight:700;font-size:15px;padding:10px;border:1px solid var(--accent);border-radius:12px;background:transparent;color:var(--text);cursor:pointer}
+.hint{display:none;font-size:12px;color:var(--muted);margin-top:8px;line-height:1.8;text-align:center}
 .done{width:100%;margin-top:14px;font:inherit;font-weight:700;font-size:15px;padding:10px;border:0;border-radius:12px;background:var(--accent);color:var(--bg);cursor:pointer}
 </style>
 </head>
@@ -78,7 +80,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex
   </div>
   <div class="list" id="list"></div>
   <div class="method" id="method"></div>
-  <a class="src" id="src" target="_blank" rel="noopener noreferrer"> مصدر البيانات : timesprayer.com ↗</a>
+  <a class="src" id="src" target="_blank" rel="noopener noreferrer">مصدر البيانات : timesprayer.com ↗</a>
 </div>
 
 <div class="ov" id="ov"><div class="panel">
@@ -90,6 +92,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex
   <label>المظهر</label><select id="sTheme"><option value="auto">تلقائي</option><option value="light">رمادي فاتح</option><option value="dark">أسود (OLED)</option></select>
   <label class="chk"><input type="checkbox" id="cIcons"> إظهار الأيقونات</label>
   <label class="chk"><input type="checkbox" id="cSec"> إظهار الثواني</label>
+  <div id="inst" style="display:none"><button class="inst" id="instBtn">📲 تثبيت التطبيق</button><div class="hint" id="instHint">في Safari: اضغط زرار المشاركة ⬆️ ثم اختار «إضافة إلى الشاشة الرئيسية».</div></div>
   <button class="done" id="done">تم</button>
 </div></div>
 
@@ -195,6 +198,20 @@ function tick(){
   document.getElementById("method").textContent=METHODS[S.method][0]+" · "+(+S.asr===1?"العصر شافعي":"العصر حنفي");
 }
 
+/* ===== زرار تثبيت التطبيق ===== */
+(function(){
+  var box=document.getElementById("inst"),btn=document.getElementById("instBtn"),hint=document.getElementById("instHint"),dp=null;
+  var app=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone;
+  if(app)return;
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;box.style.display="block"});
+  window.addEventListener("appinstalled",function(){dp=null;box.style.display="none"});
+  if(ios)box.style.display="block";
+  btn.onclick=function(){
+    if(dp){dp.prompt();dp.userChoice.then(function(){dp=null;box.style.display="none"})}
+    else if(ios){hint.style.display="block"}
+  };
+})();
 /* ===== فتح لينك المصدر في المتصفح الأساسي ===== */
 (function(){
   var a=document.getElementById("src");
