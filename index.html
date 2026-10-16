@@ -34,6 +34,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex
 .hero{background:linear-gradient(145deg,var(--hero1),var(--hero2));color:var(--hero-text);border-radius:22px;padding:12px 16px;text-align:center;position:relative;flex:none}
 .top{display:flex;align-items:center;justify-content:space-between;font-size:14px;opacity:.9}
 .gear{background:rgba(255,255,255,.14);border:0;color:inherit;border-radius:50%;width:34px;height:34px;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.tools{position:absolute;left:12px;top:10px;display:flex;flex-direction:column;gap:6px;z-index:2}
+.tools .gear{width:30px;height:30px;font-size:16px}
 .date{font-size:12px;opacity:.7}
 .mid{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px}
 .mid .big{font-size:clamp(34px,7vh,50px)}
@@ -72,7 +74,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex
 <body>
 <div class="wrap">
   <div class="hero">
-    <div class="top"><span id="city"></span><button class="gear" id="gear" aria-label="الإعدادات"></button></div>
+    <div class="top"><span id="city"></span></div>
+    <div class="tools">
+      <button class="gear" id="instBtn" aria-label="تثبيت التطبيق" style="display:none"></button>
+      <button class="gear" id="themeBtn" aria-label="تغيير المظهر"></button>
+      <button class="gear" id="gear" aria-label="الإعدادات"></button>
+    </div>
     <div class="date" id="date"></div>
     <div class="mid"><div class="big" id="bigIco"></div><div><div class="nn" id="nn">--</div><div class="nt" id="nt"></div></div></div>
     <div class="cd"><span id="cd">--:--:--</span><small>متبقي على الأذان</small></div>
@@ -80,7 +87,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex
   </div>
   <div class="list" id="list"></div>
   <div class="method" id="method"></div>
-  <a class="src" id="src" target="_blank" rel="noopener noreferrer">مصدر البيانات : timesprayer.com ↗</a>
+  <a class="src" id="src" target="_blank" rel="noopener noreferrer">مصدر البيانات ↗</a>
 </div>
 
 <div class="ov" id="ov"><div class="panel">
@@ -89,10 +96,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex
   <label>المدينة</label><select id="sCity"></select>
   <label>طريقة حساب الفجر والعشاء</label><select id="sMethod"></select>
   <label>طريقة حساب العصر</label><select id="sAsr"></select>
-  <label>المظهر</label><select id="sTheme"><option value="auto">تلقائي</option><option value="light">رمادي فاتح</option><option value="dark">أسود (OLED)</option></select>
   <label class="chk"><input type="checkbox" id="cIcons"> إظهار الأيقونات</label>
   <label class="chk"><input type="checkbox" id="cSec"> إظهار الثواني</label>
-  <div id="inst" style="display:none"><button class="inst" id="instBtn">📲 تثبيت التطبيق</button><div class="hint" id="instHint">في Safari: اضغط زرار المشاركة ⬆️ ثم اختار «إضافة إلى الشاشة الرئيسية».</div></div>
   <button class="done" id="done">تم</button>
 </div></div>
 
@@ -137,6 +142,7 @@ sun:svg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4
 asr:svg('<circle cx="12" cy="10" r="3.5"/><path d="M12 2v1.5M4.9 5l1 1M19.1 5l-1 1M2 10h1.5M20.5 10H22M3 19h18"/>'),
 sunset:svg('<path d="M12 8V4M5.6 9.6l2.2 2.2M18.4 9.6l-2.2 2.2M2 18h20M7 18a5 5 0 0 1 10 0M8 22h8"/><path d="M9 6l3 3 3-3"/>'),
 moon:svg('<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/><path d="M17 4v3M15.5 5.5h3"/>'),
+dl:svg('<path d="M12 3v12M7 10.5l5 5 5-5M5 20h14"/>'),
 gear:svg('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>')
 };
 var NAMES=[["الفجر","fajr"],["الشروق","sunrise"],["الظهر","sun"],["العصر","asr"],["المغرب","sunset"],["العشاء","moon"]];
@@ -200,16 +206,17 @@ function tick(){
 
 /* ===== زرار تثبيت التطبيق ===== */
 (function(){
-  var box=document.getElementById("inst"),btn=document.getElementById("instBtn"),hint=document.getElementById("instHint"),dp=null;
+  var btn=document.getElementById("instBtn"),box=btn.style,dp=null;
+  btn.innerHTML=ICONS.dl;
   var app=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone;
   if(app)return;
   var ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;box.style.display="block"});
-  window.addEventListener("appinstalled",function(){dp=null;box.style.display="none"});
-  if(ios)box.style.display="block";
+  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e;box.display="flex"});
+  window.addEventListener("appinstalled",function(){dp=null;box.display="none"});
+  if(ios)box.display="flex";
   btn.onclick=function(){
-    if(dp){dp.prompt();dp.userChoice.then(function(){dp=null;box.style.display="none"})}
-    else if(ios){hint.style.display="block"}
+    if(dp){dp.prompt();dp.userChoice.then(function(){dp=null;box.display="none"})}
+    else if(ios){alert("في Safari: اضغط زرار المشاركة ثم اختار «إضافة إلى الشاشة الرئيسية».")}
   };
 })();
 /* ===== فتح لينك المصدر في المتصفح الأساسي ===== */
@@ -227,14 +234,14 @@ function tick(){
 /* ===== الإعدادات ===== */
 function opts(el,arr,sel){el.innerHTML=arr.map(function(a){return '<option value="'+a[0]+'"'+(String(a[0])===String(sel)?" selected":"")+'>'+a[1]+'</option>'}).join("")}
 function fillCities(){var l=CITIES[S.country];opts(document.getElementById("sCity"),l.map(function(x){return[x[0],x[0]]}),S.city)}
-function applyTheme(){var r=document.documentElement;if(S.theme==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",S.theme);var d=S.theme==="dark"||(S.theme==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);document.getElementById("tc").setAttribute("content",d?"#000000":"#e8e8e8")}
+function applyTheme(){var r=document.documentElement;if(S.theme==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",S.theme);var d=S.theme==="dark"||(S.theme==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);document.getElementById("tc").setAttribute("content",d?"#000000":"#e8e8e8");document.getElementById("themeBtn").innerHTML=d?ICONS.sun:ICONS.moon}
+function isDark(){return S.theme==="dark"||(S.theme==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches)}
 (function(){
   document.getElementById("gear").innerHTML=ICONS.gear;
   opts(document.getElementById("sCountry"),Object.keys(CITIES).map(function(k){return[k,k]}),S.country);
   fillCities();
   opts(document.getElementById("sMethod"),Object.keys(METHODS).map(function(k){return[k,METHODS[k][0]]}),S.method);
   opts(document.getElementById("sAsr"),[[1,"شافعي / جمهور (المثل)"],[2,"حنفي (المثلين)"]],S.asr);
-  document.getElementById("sTheme").value=S.theme;
   document.getElementById("cIcons").checked=S.icons;
   document.getElementById("cSec").checked=S.seconds;
   var ov=document.getElementById("ov");
@@ -245,7 +252,7 @@ function applyTheme(){var r=document.documentElement;if(S.theme==="auto")r.remov
   document.getElementById("sCity").onchange=function(){S.city=this.value;save();tick()};
   document.getElementById("sMethod").onchange=function(){S.method=this.value;save();tick()};
   document.getElementById("sAsr").onchange=function(){S.asr=+this.value;save();tick()};
-  document.getElementById("sTheme").onchange=function(){S.theme=this.value;applyTheme();save()};
+  document.getElementById("themeBtn").onclick=function(){S.theme=isDark()?"light":"dark";applyTheme();save()};
   document.getElementById("cIcons").onchange=function(){S.icons=this.checked;save();tick()};
   document.getElementById("cSec").onchange=function(){S.seconds=this.checked;save();tick()};
   applyTheme();tick();setInterval(tick,1000);
